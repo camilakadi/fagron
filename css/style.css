@@ -1,0 +1,36 @@
+/**principais**/
+body {
+	font: 13px Open Sans, sans-serif
+}
+
+body, select, input, textarea {
+	color: #333
+}
+
+a {
+	color: #03f
+}
+
+a:hover {
+	color: #69f
+}
+/**conteudo**/
+.wrapper {
+	position: relative;
+	min-height: 100vh;
+}
+header {
+	background-color: #f5f5f5;
+}
+
+.table td, .table th {
+	vertical-align: middle;
+}
+
+input.ng-invalid.ng-dirty {
+	background-color: #ffc0c0;
+}
+
+input.ng-valid.ng-dirty {
+	background-color: #dfffdf;
+}

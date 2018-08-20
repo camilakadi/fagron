@@ -1,0 +1,162 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html class="ie ie6 ie-lt10 ie-lt9 ie-lt8 ie-lt7 no-js" lang="en"> <![endif]-->
+<!--[if IE 7 ]>    <html class="ie ie7 ie-lt10 ie-lt9 ie-lt8 no-js" lang="en"> <![endif]-->
+<!--[if IE 8 ]>    <html class="ie ie8 ie-lt10 ie-lt9 no-js" lang="en"> <![endif]-->
+<!--[if IE 9 ]>    <html class="ie ie9 ie-lt10 no-js" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="pt-br" ng-app="listClients"><!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Teste da Fagron</title>
+	<meta name="author" content="Camila">
+	<meta name="description" content="Teste da Fagron">
+	<meta name="google-site-verification" content="">
+	<meta name="Copyright" content="Camila">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="twitter:card" content="">
+	<meta name="twitter:site" content="">
+	<meta name="twitter:title" content="">
+	<meta name="twitter:description" content="">
+	<meta name="twitter:url" content="">
+	<meta property="og:title" content="">
+	<meta property="og:description" content="">
+	<meta property="og:url" content="">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body ng-controller="listClientsCtrl">
+<div class="wrapper">
+	<header class="py-3">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<h3><i class="fa fa-users" aria-hidden="true"></i> {{title}}</h3>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="insert-client py-5">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12 text-right">
+					<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalInserir">
+						<i class="fa fa-plus" aria-hidden="true"></i> Inserir Cliente
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--MODEL-->
+	<div class="modal fade" id="modalInserir" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Inserir Cliente</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeClient()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form name="formulario"  novalidate>
+						<p>Campos com <span class="text-danger">*</span> são obrigatórios</p>
+						<div class="form-group">
+							<label>Nome <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="name" ng-model="client.name" required minlength="2" maxlength="30">
+							<small class="text-danger" ng-show="formulario.name.$invalid && formulario.name.$dirty">Campo NOME é obrigatório, com o mínimo de 2 caracteres e máximo 30.</small>
+						</div>
+						<div class="form-group">
+							<label>Sobrenome <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="lastName" ng-model="client.lastName" required minlength="2" maxlength="100">
+							<small class="text-danger" ng-show="formulario.lastName.$invalid && formulario.lastName.$dirty">Campo SOBRENOME é obrigatório, com o mínimo de 2 caracteres e máximo 100.</small>
+						</div>
+						<div class="form-group">
+							<label>CPF <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="cpf" ng-model="client.cpf" ui-br-cpf-mask required>
+							<small class="text-danger" ng-show="formulario.cpf.$invalid && formulario.cpf.$dirty">Campo CPF é obrigatório e deve ser válido.</small>
+						</div>
+						<div class="form-group">
+							<label>Data de Nascimento <span class="text-danger">*</span></label>
+							<input type="text" class="form-control" name="birthDate" ng-model="client.birthDate" ui-date-mask="DD/MM/YYYY" required>
+							<small class="text-danger" ng-show="formulario.birthDate.$invalid && formulario.birthDate.$dirty">Campo DATA DE NASCIMENTO é obrigatório.</small>
+						</div>
+						<div class="form-group">
+							<label>Profissão</label>
+							<select class="form-control" name="profession" ng-model="client.profession">
+						    	<option value="" selected="selected">Selecione uma profissão...</option>
+						    	<option value="Programador">Programador</option>
+						    	<option value="Analista">Analista</option>
+						    	<option value="Gerente">Gerente</option>
+						    	<option value="Estagiário">Estagiário</option>
+								<option value="QA">QA</option>
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button ng-click="addClient()" onclick="$('.modal').modal('hide')" class="btn btn-sm btn-primary" ng-disabled="formulario.$invalid"><i class="fa fa-plus" aria-hidden="true"></i> Inserir</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /MODEL-->
+
+	<div class="listagem-cadastro mb-5">
+		<div class="container-fluid">
+			<p class="text-danger d-sm-none">Arraste a tabela para o lado para visualizar</p>
+			<div class="table-responsive-md">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col">#</th>
+							<th scope="col">Nome</th>
+							<th scope="col">Sobrenome</th>
+							<th scope="col">CPF</th>
+							<th scope="col">Data de Nasc.</th>
+							<th scope="col">Idade</th>
+							<th scope="col">Profissão</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="line in persons">
+							<th scope="row">{{line.id}}</th>
+							<td>{{line.name}}</td>
+							<td>{{line.lastName}}</td>
+							<td>{{line.cpf | cpfFormated}}</td>
+							<td>{{line.birthDate | date: 'dd/MM/yyyy'}}</td>
+							<td>{{line.birthDate | ageFilter}}</td>
+							<td>{{line.profession}}</td>
+							<td class="text-right">
+								<a title="Editar" class="btn btn-success btn-sm my-1" data-toggle="modal" data-target="#modalInserir" ng-click="editClient(line);">
+									<i class="fa fa-pencil text-white" aria-hidden="true"></i>
+								</a>
+								<a ng-click="deleteClient(line)" title="Deletar" class="btn btn-danger btn-sm my-1">
+									<i class="fa fa-close text-white" aria-hidden="true"></i>
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<footer class="w-100"></footer>
+</div><!--wrapper-->
+
+
+<script src="js/jquery-1.11.3.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/angular-input-masks-standalone.min.js"></script>
+<script src="js/functions.js"></script>
+
+</body>
+</html>
